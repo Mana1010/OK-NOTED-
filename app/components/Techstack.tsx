@@ -8,8 +8,14 @@ import firebaseIcon from "./img/firebase.png";
 import tsIcon from "./img/typescript.png";
 import framerIcon from "./img/framer.png";
 import rhfIcon from "./img/rhf.png";
+import { StaticImageData } from "next/image";
+interface Imgs {
+  img: StaticImageData;
+  w: number;
+  name: string;
+}
 export default function Techstack() {
-  const imgs = [
+  const imgs: Imgs[] = [
     {
       img: nextIcon,
       w: 80,
@@ -42,7 +48,7 @@ export default function Techstack() {
     },
   ];
   return (
-    <div className="w-full h-[40vh] flex item-center px-5 py-4  flex-col backdrop-blur-lg">
+    <div className="w-full h-[50vh] flex item-center px-5 py-4  flex-col backdrop-blur-[100px]">
       <h1 className="text-white text-3xl font-bold text-center md:text-start">
         Tech Stack Used
       </h1>
