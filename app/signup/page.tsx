@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useSearchParams } from "next/navigation";
+import { error } from "console";
 interface Info {
   fullname: string;
   email: string;
-  gender: string;
   password: string;
   confirmpassword: string;
 }
@@ -25,17 +25,22 @@ export default function SignUp() {
       confirmpassword: "",
     },
   });
-  const { register, handleSubmit, reset, control } = form;
+
+  const { register, handleSubmit, reset, control, formState } = form;
+  const { errors } = formState;
+  function submitForm(data: Info) {
+    alert("Submitted");
+  }
   return (
     <div className="login-section">
       <Header />
       <div className="w-full h-full backdrop-blur-[200px] flex items-center justify-center px-4 py-10">
-        <form className="w-full md:w-[500px] h-[90%] backdrop-blur-[150px] bg-white/20 px-5 py-3 rounded-md mt-5">
-          <div>
-            <h1 className="text-white text-2xl font-bold">SIGN UP</h1>
-            {search && <p>{search}</p>}
-          </div>
-          <div className="flex w-full space-y-4 item-center justify-center flex-col h-full">
+        <form
+          onSubmit={handleSubmit(submitForm)}
+          className="w-full md:w-[500px] h-[85%] md:h-[92%] backdrop-blur-[150px] bg-white/20 px-5 py-2.5 rounded-md mt-5 space-y-5"
+        >
+          <h1 className="text-white text-2xl font-bold">SIGN UP</h1>
+          <div className="flex w-full space-y-3 item-center justify-center flex-col py-1">
             <div className="w-full space-y-1">
               <label
                 htmlFor="fullname"
@@ -45,11 +50,17 @@ export default function SignUp() {
               </label>
               <div>
                 <input
-                  className="w-full rounded-md backdrop-blur-lg bg-white/20 px-2 py-3 outline-none text-white placeholder:text-slate-300 "
+                  className="w-full rounded-md backdrop-blur-lg bg-white/20 px-2 py-2.5 outline-none text-white placeholder:text-slate-300 "
                   type="text"
                   id="fullname"
                   placeholder="@e.g John Waltz"
-                  {...register("fullname")}
+                  {...register("fullname", {
+                    validate: {
+                      fullName: (value) => {
+                        return value !== "" || "FullName required";
+                      },
+                    },
+                  })}
                 />
               </div>
             </div>
@@ -62,12 +73,20 @@ export default function SignUp() {
               </label>
               <div>
                 <input
-                  className="w-full rounded-md backdrop-blur-lg bg-white/20 px-2 py-3 outline-none text-white placeholder:text-slate-300 "
+                  className="w-full rounded-md backdrop-blur-lg bg-white/20 px-2 py-2.5 outline-none text-white placeholder:text-slate-300 "
                   type="email"
                   id="email"
                   placeholder="@e.g johnwaltz10@gmail.com"
-                  {...register("email")}
+                  {...register("email", {
+                    required: {
+                      value: true,
+                      message: "Email required",
+                    },
+                  })}
                 />
+                {errors.email?.message && (
+                  <small className="text-red-400">{errors.email.message}</small>
+                )}
               </div>
             </div>
 
@@ -79,7 +98,7 @@ export default function SignUp() {
                 PASSWORD
               </label>
               <div>
-                <div className="w-full rounded-md backdrop-blur-lg bg-white/20 px-2 py-3 flex justify-between items-center">
+                <div className="w-full rounded-md backdrop-blur-lg bg-white/20 px-2 py-2.5 flex justify-between items-center">
                   <input
                     type={showPass ? "text" : "password"}
                     placeholder="******"
@@ -104,7 +123,7 @@ export default function SignUp() {
                 CONFIRM PASSWORD
               </label>
               <div>
-                <div className="w-full rounded-md backdrop-blur-lg bg-white/20 px-2 py-3 flex justify-between items-center">
+                <div className="w-full rounded-md backdrop-blur-lg bg-white/20 px-2 py-2.5 flex justify-between items-center">
                   <input
                     type={showConPass ? "text" : "password"}
                     placeholder="******"
@@ -120,6 +139,14 @@ export default function SignUp() {
                   </button>
                 </div>
               </div>
+            </div>
+            <div className="pt-5">
+              <button
+                type="submit"
+                className="bg-blue-600 text-white w-full py-2.5 font-bold"
+              >
+                SUBMIT
+              </button>
             </div>
           </div>
         </form>
