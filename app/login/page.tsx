@@ -13,7 +13,9 @@ export default function Login() {
     <div className="login-section">
       <Header />
       <div className="w-full h-full backdrop-blur-[200px] flex items-center justify-center px-4">
-        <form className="w-full  md:w-[400px] h-[50%] backdrop-blur-[150px] bg-white/20 px-6 py-3 rounded-md"></form>
+        <form className="w-full md:w-[400px] h-[550px] md:h-[500px] backdrop-blur-[150px] bg-white/20 px-5 py-2.5 rounded-md mt-5 space-y-5">
+          <h1 className="text-white text-2xl font-bold">LOG IN</h1>
+        </form>
       </div>
     </div>
   );

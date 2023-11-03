@@ -7,6 +7,12 @@
   width: 100%;
   background-position: center;
 }
+.signup-section {
+  background-image: url(./images/bgform.png);
+  width: 100%;
+  height: 100vh;
+  background-position: center;
+}
 .login-section {
   background-image: url(./images/bgform.png);
   width: 100%;
