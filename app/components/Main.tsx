@@ -1,12 +1,13 @@
 "use client";
 import { motion, useScroll } from "framer-motion";
-import { useStoreData } from "../store/store";
+import { useAuthData } from "../store/store";
 import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { auth } from "../sdk/firebase";
 export default function Main() {
   const route = useRouter();
   const path = usePathname();
-  const { authenticated, stateChanged } = useStoreData();
+  const { authenticated, stateChanged } = useAuthData();
   const homeVariants = {
     initial: {
       opacity: 0,

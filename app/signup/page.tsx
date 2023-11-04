@@ -3,33 +3,40 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { auth, db } from "../sdk/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-interface Info {
+export interface Info {
   fullname: string;
   email: string;
   password: string;
   confirmpassword: string;
+  provider: string;
+  photoURL: File | null;
+  displayName: string | null;
+  isSetProfile: boolean;
+  userID: string | null;
 }
 export default function SignUp() {
   const [showPass, setShowPass] = useState(false);
   const [showConPass, setShowConPass] = useState(false);
-  const params = useSearchParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const search = params.get("message");
-  const form = useForm({
+  const form = useForm<Info>({
     defaultValues: {
       fullname: "",
       email: "",
       password: "",
       confirmpassword: "",
+      provider: "EMAIL AND PASSWORD",
+      photoURL: null,
+      displayName: null,
+      isSetProfile: false,
+      userID: null,
     },
   });
 
@@ -38,10 +45,12 @@ export default function SignUp() {
 
   async function submitForm(data: Info) {
     const accountRef = collection(db, "accounts");
+    const currentPerson = auth.currentUser;
     try {
       setLoading(true);
+      const updatedAccount = { ...data, userID: currentPerson?.uid };
       await createUserWithEmailAndPassword(auth, data.email, data.password);
-      await addDoc(accountRef, data);
+      await addDoc(accountRef, updatedAccount);
       toast.success("Successfully Sign Up");
       setErrorMessage("");
       router.push("/login");
@@ -93,7 +102,7 @@ export default function SignUp() {
       <div className="w-full h-full backdrop-blur-[200px] flex items-center justify-center px-4 py-9">
         <form
           onSubmit={handleSubmit(submitForm)}
-          className="w-full md:w-[500px] h-[550px] md:h-[570px] backdrop-blur-[150px] bg-white/20 px-5 py-2.5 rounded-md mt-5 space-y-5"
+          className="w-full md:w-[500px] h-[530px] md:h-[570px] backdrop-blur-[150px] bg-white/20 px-5 py-2.5 rounded-md mt-7 md:mt-5 space-y-5"
         >
           <h1 className="text-white text-2xl font-bold">SIGN UP</h1>
           {errorMessage && (

@@ -6,6 +6,7 @@ const store = (set: any) => ({
   authenticated: true,
   stateChanged: () => {
     onAuthStateChanged(auth, (user) => {
+      console.log(user);
       if (!user) {
         set({ authenticated: false });
       } else {
@@ -14,4 +15,4 @@ const store = (set: any) => ({
     });
   },
 });
-export const useStoreData = create(store);
+export const useAuthData = create(store);

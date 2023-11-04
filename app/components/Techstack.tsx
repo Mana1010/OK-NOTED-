@@ -8,6 +8,7 @@ import firebaseIcon from "./img/firebase.png";
 import tsIcon from "./img/typescript.png";
 import framerIcon from "./img/framer.png";
 import rhfIcon from "./img/rhf.png";
+import zustandIcon from "./img/zustand.png";
 import { StaticImageData } from "next/image";
 interface Imgs {
   img: StaticImageData;
@@ -40,6 +41,11 @@ export default function Techstack() {
       img: framerIcon,
       w: 80,
       name: "framer",
+    },
+    {
+      img: zustandIcon,
+      w: 150,
+      name: "zustand",
     },
     {
       img: rhfIcon,
